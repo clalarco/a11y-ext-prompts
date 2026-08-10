@@ -36,6 +36,19 @@ jobs:
             cp "$f" release-assets/sites/
           done
 
+      - name: Create zip bundle (markdown-like layout)
+        run: |
+          # Replica la estructura de directorios de prompts/ (generic + sites)
+          # agrupando los JSON igual que los markdown de origen.
+          mkdir -p zip-build/prompts/prompts/sites zip-build/prompts/prompts/generic
+          cp dist/prompts.json zip-build/prompts/prompts.json
+          cp dist/sites/generic.json zip-build/prompts/prompts/generic/generic.json
+          for f in dist/sites/*.json; do
+            [ "$(basename "$f")" = "generic.json" ] && continue
+            cp "$f" zip-build/prompts/prompts/sites/
+          done
+          cd zip-build && zip -r ../release-assets/prompts.zip prompts
+
       - name: Set timestamp tag
         id: ts
         run: echo "tag=$(date -u +%Y%m%d-%H%M%S)" >> "$GITHUB_OUTPUT"
@@ -48,5 +61,6 @@ jobs:
           files: |
             release-assets/prompts/prompts.json
             release-assets/prompts/generic.json
+            release-assets/prompts.zip
             release-assets/sites/*.json
           generate_release_notes: true

@@ -33,6 +33,21 @@ genera el bundle y publica un release con `tag_name` de **timestamp UTC**
 - Índice: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/prompts/prompts.json`
 - Genéricos: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/prompts/generic.json`
 - Sitio: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/sites/<site>.json`
+- Todo en un zip: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/prompts/prompts.zip`
+
+El **zip** (`prompts.zip`) agrupa todos los JSON del bundle con la **misma
+estructura de directorios que los Markdown** de origen:
+
+```
+prompts/
+├── prompts.json              # índice del bundle
+├── generic/
+│   └── generic.json          # prompts genéricos
+└── sites/
+    ├── wikipedia.org.json
+    ├── github.com.json
+    └── ...
+```
 
 Para regenerar el bundle localmente: `npm run bundle`.
 
