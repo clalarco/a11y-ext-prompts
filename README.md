@@ -14,8 +14,15 @@ cada prompt está adaptado para dar la mejor ayuda en ese contexto concreto.
 - **Enfocar la ayuda según el sitio**: cada sitio tiene su propio prompt que
   explica a la IA cómo leer, resumir e interactuar con esa página.
 - **Colaboración**: los cambios se proponen mediante pull requests.
-- **Consumo desde la extensión**: los prompts pueden convertirse a JSON y leerse
-  desde `src/core/prompts.ts` / `chrome.storage` (ver `docs/`).
+- **Consumo desde la extensión**: la extensión lee estos `.md` en tiempo de
+  build (con `gray-matter`) y los bundlea como JSON tipado en
+  `src/core/prompt-store.ts`. El repositorio solo guarda Markdown puro; ninguna
+  lógica de conversión vive aquí (ver `docs/FORMAT.es.md`).
+
+Este repositorio es **solo fuente de verdad de Markdown**. La conversión a JSON
+se realiza en la extensión (`blind-ext`) durante el build mediante el plugin
+`src/vite/prompts-plugin.ts`, que usa `gray-matter` para parsear el frontmatter
+y las secciones del cuerpo. Así el subrepo se mantiene limpio y compartible.
 
 ## Estructura
 
@@ -23,6 +30,8 @@ cada prompt está adaptado para dar la mejor ayuda en ese contexto concreto.
 prompts/
 ├── README.md
 ├── CONTRIBUTING.md        # Guía para añadir/editar prompts
+├── docs/
+│   └── FORMAT.es.md       # Especificación del frontmatter y estructura
 ├── sites/                 # Un archivo por sitio web (o dominio)
 │   ├── wikipedia.org.md
 │   ├── github.com.md

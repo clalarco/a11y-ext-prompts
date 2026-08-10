@@ -1,5 +1,3 @@
-# Ignorar artefactos generados (si se añade un conversor a JSON)
-dist/
-prompts.json
+# Artefactos y basura del sistema
 *.tmp
 .DS_Store

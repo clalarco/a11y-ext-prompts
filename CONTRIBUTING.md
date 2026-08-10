@@ -15,7 +15,7 @@ los prompts consistentes, probables y fáciles de consumir por la extensión.
 
 ## Estructura de un archivo de prompt
 
-Cada prompt sigue el formato definido en `docs/FORMAT.md`:
+Cada prompt sigue el formato definido en `docs/FORMAT.es.md`:
 
 ```yaml
 ---
@@ -36,7 +36,9 @@ Y un cuerpo con las secciones: `Role` / `Context` / `Input` / `Output` /
 
 1. Crea una rama desde `main`.
 2. Añade o edita el prompt siguiendo el formato.
-3. (Opcional) Ejecuta el validador si existe.
+3. Valida que la extensión lo compile sin error: `npm run check` en `blind-ext`
+   (el build usa `gray-matter` para parsear el frontmatter y falla si el
+   archivo no es válido o el `id` está duplicado).
 4. Abre un pull request describiendo qué sitio o caso cubre.
 
 ## Checklist de revisión
