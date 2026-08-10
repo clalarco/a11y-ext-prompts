@@ -30,7 +30,8 @@ Cada push a `main` dispara la GH Action `.github/workflows/release.yml`, que
 genera el bundle y publica un release con `tag_name` de **timestamp UTC**
 (por ejemplo `20260810-143000`). Los assets tienen URLs estables:
 
-- Índice: `https://github.com/clalarco/blind-ext-prompts/releases/latest/download/prompts.json`
+- Índice: `https://github.com/clalarco/blind-ext-prompts/releases/latest/download/prompts/prompts.json`
+- Genéricos: `https://github.com/clalarco/blind-ext-prompts/releases/latest/download/prompts/generic.json`
 - Sitio: `https://github.com/clalarco/blind-ext-prompts/releases/latest/download/sites/<site>.json`
 
 Para regenerar el bundle localmente: `npm run bundle`.

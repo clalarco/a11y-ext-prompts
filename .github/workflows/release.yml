@@ -25,6 +25,17 @@ jobs:
       - name: Generate bundle
         run: npm run bundle
 
+      - name: Arrange assets into subfolders
+        run: |
+          mkdir -p release-assets/prompts release-assets/sites
+          cp dist/prompts.json release-assets/prompts/prompts.json
+          cp dist/sites/generic.json release-assets/prompts/generic.json
+          # Solo los sitios (excluye generic, que va en prompts/)
+          for f in dist/sites/*.json; do
+            [ "$(basename "$f")" = "generic.json" ] && continue
+            cp "$f" release-assets/sites/
+          done
+
       - name: Set timestamp tag
         id: ts
         run: echo "tag=$(date -u +%Y%m%d-%H%M%S)" >> "$GITHUB_OUTPUT"
@@ -35,6 +46,7 @@ jobs:
           tag_name: ${{ steps.ts.outputs.tag }}
           name: "Prompts ${{ steps.ts.outputs.tag }}"
           files: |
-            dist/prompts.json
-            dist/sites/*.json
+            release-assets/prompts/prompts.json
+            release-assets/prompts/generic.json
+            release-assets/sites/*.json
           generate_release_notes: true
