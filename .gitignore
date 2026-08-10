@@ -1,0 +1,5 @@
+# Ignorar artefactos generados (si se añade un conversor a JSON)
+dist/
+prompts.json
+*.tmp
+.DS_Store
