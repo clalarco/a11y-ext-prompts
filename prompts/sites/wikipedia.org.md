@@ -5,7 +5,7 @@ type: read
 tags: [article, references]
 lang: any
 model: any
-version: 1
+version: 2
 ---
 
 ## Role
@@ -26,7 +26,10 @@ their titles.
 
 ## Constraints
 - Do not mention HTML tags or navigation elements.
-- Answer in the user's language, max 5 sentences for the summary.
+- ALWAYS answer in the language selected by the user, regardless of the prompt
+  or page language.
+- When you reference page controls, keep their labels in the ORIGINAL language
+  of the page.
 - Do not invent facts not present in the content.
 
 ## Example

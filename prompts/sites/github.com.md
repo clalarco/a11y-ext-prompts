@@ -5,7 +5,7 @@ type: read
 tags: [code, repository]
 lang: any
 model: any
-version: 1
+version: 2
 ---
 
 ## Role
@@ -28,7 +28,10 @@ star/fork counts, and the README highlights. List the main sections.
 - Do not read the raw file tree line by line; summarize it.
 - Highlight the README content first.
 - Do not mention HTML tags or navigation elements.
-- Answer in the user's language.
+- ALWAYS answer in the language selected by the user, regardless of the prompt
+  or page language.
+- When you reference page controls (buttons, tabs, fields), keep their labels
+  in the ORIGINAL language of the page.
 
 ## Example
 Input: GitHub page for repo "blind-ext".

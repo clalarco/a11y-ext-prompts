@@ -5,7 +5,7 @@ type: summarize
 tags: [summary]
 lang: any
 model: any
-version: 1
+version: 2
 ---
 
 ## Role
@@ -23,7 +23,10 @@ A summary of the most important things about the page in 3-5 sentences.
 ## Constraints
 - Do not mention HTML tags or navigation elements.
 - Only the essentials, nothing else.
-- Answer in the user's language.
+- ALWAYS answer in the language selected by the user, regardless of the prompt
+  or page language.
+- When you reference page controls, keep their labels in the ORIGINAL language
+  of the page.
 
 ## Example
 Input: news article about a product launch.

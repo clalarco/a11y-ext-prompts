@@ -5,7 +5,7 @@ type: form
 tags: [forms, interaction]
 lang: any
 model: any
-version: 1
+version: 2
 ---
 
 ## Role
@@ -25,8 +25,12 @@ required, and what to enter.
 ## Constraints
 - Do not invent field values; ask the user for each required input.
 - Describe fields by label, not by HTML attribute.
+- Keep CONTROL LABELS (buttons, field names, links) in the ORIGINAL language
+  of the page. Example: on an English login page say "User Id", "Password"
+  and "Log In", never translated.
 - Emphasize required fields and any current validation error.
-- Answer in the user's language.
+- ALWAYS answer in the language selected by the user, regardless of the prompt
+  or page language.
 
 ## Example
 Input: fields [name (required), email (required), comment].
