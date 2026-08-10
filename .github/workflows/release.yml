@@ -1,0 +1,40 @@
+name: release-prompts
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  bundle-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate bundle
+        run: npm run bundle
+
+      - name: Set timestamp tag
+        id: ts
+        run: echo "tag=$(date -u +%Y%m%d-%H%M%S)" >> "$GITHUB_OUTPUT"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ts.outputs.tag }}
+          name: "Prompts ${{ steps.ts.outputs.tag }}"
+          files: |
+            dist/prompts.json
+            dist/sites/*.json
+          generate_release_notes: true

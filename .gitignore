@@ -1,3 +1,7 @@
 # Artefactos y basura del sistema
 *.tmp
 .DS_Store
+
+# Dependencias y bundle generado (se publica como release)
+node_modules/
+dist/

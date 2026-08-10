@@ -36,10 +36,14 @@ Y un cuerpo con las secciones: `Role` / `Context` / `Input` / `Output` /
 
 1. Crea una rama desde `main`.
 2. Añade o edita el prompt siguiendo el formato.
-3. Valida que la extensión lo compile sin error: `npm run check` en `blind-ext`
-   (el build usa `gray-matter` para parsear el frontmatter y falla si el
-   archivo no es válido o el `id` está duplicado).
+3. Valida que el bundle compile sin error: `npm install && npm run bundle`
+   (falla si el frontmatter no es válido o el `id` está duplicado). Puedes
+   revisar el resultado en `dist/`.
 4. Abre un pull request describiendo qué sitio o caso cubre.
+
+> Al mergear a `main`, la GH Action `.github/workflows/release.yml` genera el
+> bundle y publica un release nuevo (tag de timestamp UTC) con los assets
+> `prompts.json` y `dist/sites/*.json`.
 
 ## Checklist de revisión
 

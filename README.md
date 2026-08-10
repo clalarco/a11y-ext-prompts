@@ -14,35 +14,54 @@ cada prompt está adaptado para dar la mejor ayuda en ese contexto concreto.
 - **Enfocar la ayuda según el sitio**: cada sitio tiene su propio prompt que
   explica a la IA cómo leer, resumir e interactuar con esa página.
 - **Colaboración**: los cambios se proponen mediante pull requests.
-- **Consumo desde la extensión**: la extensión lee estos `.md` en tiempo de
-  build (con `gray-matter`) y los bundlea como JSON tipado en
-  `src/core/prompt-store.ts`. El repositorio solo guarda Markdown puro; ninguna
-  lógica de conversión vive aquí (ver `docs/FORMAT.es.md`).
+- **Bundle publicado como release**: el bundle JSON se **genera en este mismo
+  repositorio** (`scripts/to-json.mjs`) y se publica como **asset de GitHub
+  Releases** en cada push a `main`. La extensión (`blind-ext`) lo descarga en
+  runtime y lo cachea en `chrome.storage.local`, sin parsear Markdown.
 
-Este repositorio es **solo fuente de verdad de Markdown**. La conversión a JSON
-se realiza en la extensión (`blind-ext`) durante el build mediante el plugin
-`src/vite/prompts-plugin.ts`, que usa `gray-matter` para parsear el frontmatter
-y las secciones del cuerpo. Así el subrepo se mantiene limpio y compartible.
+El repositorio es la **fuente de verdad en Markdown** y también el **origen del
+bundle**. La conversión a JSON usa `gray-matter` (parsing de frontmatter + las
+secciones del cuerpo) y produce el índice `prompts.json` más un JSON por sitio
+(`dist/sites/<site>.json`). Ver `scripts/to-json.mjs` y `docs/FORMAT.es.md`.
+
+## Releases
+
+Cada push a `main` dispara la GH Action `.github/workflows/release.yml`, que
+genera el bundle y publica un release con `tag_name` de **timestamp UTC**
+(por ejemplo `20260810-143000`). Los assets tienen URLs estables:
+
+- Índice: `https://github.com/clalarco/blind-ext-prompts/releases/latest/download/prompts.json`
+- Sitio: `https://github.com/clalarco/blind-ext-prompts/releases/latest/download/sites/<site>.json`
+
+Para regenerar el bundle localmente: `npm run bundle`.
 
 ## Estructura
 
 ```
-prompts/
+blind-ext-prompts/
 ├── README.md
 ├── CONTRIBUTING.md        # Guía para añadir/editar prompts
+├── LICENSE
+├── package.json           # script `bundle` (gray-matter)
+├── scripts/
+│   └── to-json.mjs        # genera dist/prompts.json + dist/sites/<site>.json
+├── .github/workflows/
+│   └── release.yml        # release por push a main (timestamp)
 ├── docs/
 │   └── FORMAT.es.md       # Especificación del frontmatter y estructura
-├── sites/                 # Un archivo por sitio web (o dominio)
-│   ├── wikipedia.org.md
-│   ├── github.com.md
-│   └── ...
-├── generic/               # Prompts genéricos reutilizables
-│   ├── read-page.md
-│   ├── summarize.md
-│   └── form-filling.md
-└── docs/
-    └── FORMAT.md          # Especificación del frontmatter y estructura
+└── prompts/
+    ├── sites/             # Un archivo por sitio web (o dominio)
+    │   ├── wikipedia.org.md
+    │   ├── github.com.md
+    │   └── ...
+    └── generic/           # Prompts genéricos reutilizables
+        ├── assistant.md
+        ├── read-page.md
+        ├── summarize.md
+        └── form-filling.md
 ```
+
+> `dist/` es salida del script y no se commitea; viaja como asset del release.
 
 ## Formatos de archivo
 
@@ -51,8 +70,10 @@ cuerpo estructurado. Ver `docs/FORMAT.md` para la especificación completa.
 
 ## Añadir un prompt
 
-1. Crea el archivo en `sites/<dominio>.md` (o `generic/<nombre>.md`).
-2. Rellena el frontmatter y el cuerpo según `docs/FORMAT.md`.
-3. Ejecuta cualquier validación (si la hay) y abre un PR.
+1. Crea el archivo en `prompts/sites/<dominio>.md` (o `prompts/generic/<nombre>.md`).
+2. Rellena el frontmatter y el cuerpo según `docs/FORMAT.es.md`.
+3. Valida localmente que el bundle compile: `npm install && npm run bundle`
+   (falla si el frontmatter es inválido o hay un `id` duplicado).
+4. Abre un PR. Al mergear a `main`, la GH Action generará el release.
 
 Ver `CONTRIBUTING.md`.

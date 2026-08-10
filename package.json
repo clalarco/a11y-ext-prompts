@@ -1,0 +1,16 @@
+{
+  "name": "blind-ext-prompts",
+  "version": "0.1.0",
+  "description": "Biblioteca de prompts de accesibilidad para blind-ext. Fuente de verdad en Markdown; el bundle JSON se genera aquí y se publica como release.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bundle": "node scripts/to-json.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}
