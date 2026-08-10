@@ -25,21 +25,12 @@ jobs:
       - name: Generate bundle
         run: npm run bundle
 
-      - name: Arrange assets into subfolders
+      - name: Build ZIP (markdown-like layout)
         run: |
-          mkdir -p release-assets/prompts release-assets/sites
-          cp dist/prompts.json release-assets/prompts/prompts.json
-          cp dist/sites/generic.json release-assets/prompts/generic.json
-          # Solo los sitios (excluye generic, que va en prompts/)
-          for f in dist/sites/*.json; do
-            [ "$(basename "$f")" = "generic.json" ] && continue
-            cp "$f" release-assets/sites/
-          done
-
-      - name: Create zip bundle (markdown-like layout)
-        run: |
-          # Replica la estructura de directorios de prompts/ (generic + sites)
-          # agrupando los JSON igual que los markdown de origen.
+          # Estructura que consume blind-ext (la raíz del repo es prompts/):
+          #   prompts/prompts.json
+          #   prompts/generic/generic.json
+          #   prompts/sites/<site>.json
           mkdir -p zip-build/prompts/prompts/sites zip-build/prompts/prompts/generic
           cp dist/prompts.json zip-build/prompts/prompts.json
           cp dist/sites/generic.json zip-build/prompts/prompts/generic/generic.json
@@ -47,6 +38,7 @@ jobs:
             [ "$(basename "$f")" = "generic.json" ] && continue
             cp "$f" zip-build/prompts/prompts/sites/
           done
+          mkdir -p release-assets
           cd zip-build && zip -r ../release-assets/prompts.zip prompts
 
       - name: Set timestamp tag
@@ -59,8 +51,5 @@ jobs:
           tag_name: ${{ steps.ts.outputs.tag }}
           name: "Prompts ${{ steps.ts.outputs.tag }}"
           files: |
-            release-assets/prompts/prompts.json
-            release-assets/prompts/generic.json
             release-assets/prompts.zip
-            release-assets/sites/*.json
           generate_release_notes: true

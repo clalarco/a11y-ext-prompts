@@ -42,9 +42,9 @@ Y un cuerpo con las secciones: `Role` / `Context` / `Input` / `Output` /
 4. Abre un pull request describiendo qué sitio o caso cubre.
 
 > Al mergear a `main`, la GH Action `.github/workflows/release.yml` genera el
-> bundle y publica un release nuevo (tag de timestamp UTC) con los assets
-> `prompts.json`, `dist/sites/*.json` y un `prompts.zip` que agrupa todos los
-> JSON con la misma estructura de directorios que los Markdown.
+> bundle y publica un release nuevo (tag de timestamp UTC) con un único asset:
+> `prompts.zip`, que agrupa todos los JSON con la misma estructura de
+> directorios que los Markdown.
 
 ## Checklist de revisión
 

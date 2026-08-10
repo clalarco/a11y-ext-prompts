@@ -28,14 +28,12 @@ secciones del cuerpo) y produce el índice `prompts.json` más un JSON por sitio
 
 Cada push a `main` dispara la GH Action `.github/workflows/release.yml`, que
 genera el bundle y publica un release con `tag_name` de **timestamp UTC**
-(por ejemplo `20260810-143000`). Los assets tienen URLs estables:
+(por ejemplo `20260810-143000`). Como **único asset** se publica el zip, con
+URL estable:
 
-- Índice: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/prompts/prompts.json`
-- Genéricos: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/prompts/generic.json`
-- Sitio: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/sites/<site>.json`
-- Todo en un zip: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/prompts/prompts.zip`
+- Zip: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/prompts.zip`
 
-El **zip** (`prompts.zip`) agrupa todos los JSON del bundle con la **misma
+El **`prompts.zip`** agrupa todos los JSON del bundle con la **misma
 estructura de directorios que los Markdown** de origen:
 
 ```
