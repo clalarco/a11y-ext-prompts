@@ -1,7 +1,7 @@
 {
-  "name": "blind-ext-prompts",
+  "name": "a11y-ext-prompts",
   "version": "0.1.0",
-  "description": "Biblioteca de prompts de accesibilidad para blind-ext. Fuente de verdad en Markdown; el bundle JSON se genera aquí y se publica como release.",
+  "description": "Biblioteca de prompts de accesibilidad para a11y-ext. Fuente de verdad en Markdown; el bundle JSON se genera aquí y se publica como release.",
   "private": true,
   "type": "module",
   "scripts": {
