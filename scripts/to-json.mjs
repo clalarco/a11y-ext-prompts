@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 /**
- * Convierte la biblioteca de prompts (Markdown) a un bundle JSON que se
+ * Convierte la biblioteca de prompts (SKILL.md) a un bundle JSON que se
  * publica como asset de GitHub Releases en este repositorio.
  *
- * Fuente: `prompts/generic/*.md` y `prompts/sites/<dominio>.md`.
+ * Fuente: `prompts/generic/<accion>/SKILL.md` y `prompts/sites/<dominio>/<accion>/SKILL.md`.
  * Salida:
  *   - `dist/prompts.json`  -> índice { version, generatedAt, count, sites }
  *   - `dist/sites/<site>.json` -> array de prompts por sitio (incl. generic)
  *
+ * Cada prompt es un skill estándar (frontmatter `name` + `description` + cuerpo
+ * con secciones `##`). Los campos `site`, `type`, `id` y `version` se derivan
+ * de la ruta y de valores por defecto; `tags`/`lang`/`model` son opcionales.
  * El `id` es la clave que consume la extensión blind-ext (`prompt-store.ts`).
- * Misma semántica de parsing/validación que `prompts-plugin.ts` del parent.
  */
 
 import { readdirSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
@@ -24,6 +26,29 @@ const PROMPTS_DIR = join(ROOT, 'prompts');
 const DIST_DIR = join(ROOT, 'dist');
 
 /**
+ * Normaliza el nombre de la carpeta de acción a un `type` canónico.
+ * Las carpetas de sitio ya usan el `type` como nombre; solo los genéricos
+ * necesitan un mapa (algunos no coinciden con el vocabulario de `type`).
+ */
+const TYPE_BY_FOLDER = {
+  assistant: 'any',
+  'page-type': 'any',
+  'read-page': 'read',
+  'form-filling': 'form',
+};
+
+/** Versión por defecto cuando no está en el frontmatter. */
+const DEFAULT_VERSION = 1;
+
+/** TLDs que se omiten al derivar el prefijo del `id` (`github.com` -> `github`). */
+const TLD_RE = /\.(?:com|org|net|io|co|gov|edu|info|dev)$/i;
+
+/** Slugea el dominio para usarlo como prefijo del `id` (quita el TLD). */
+function slugDomain(site) {
+  return site.replace(TLD_RE, '');
+}
+
+/**
  * Forma tipada de un prompt tal y como lo consume la extensión.
  * Debe coincidir con `PromptFromMarkdown` (ver `docs/FORMAT.es.md`).
  */
@@ -35,29 +60,62 @@ class PromptRecord {
     this.tags = Array.isArray(record.tags) ? record.tags.map(String) : [];
     this.lang = record.lang ?? 'any';
     this.model = record.model ?? 'any';
-    this.version = record.version ?? 1;
+    this.version = record.version ?? DEFAULT_VERSION;
+    this.name = record.name ?? '';
+    this.description = record.description ?? '';
     this.role = record.role ?? '';
     this.context = record.context ?? '';
     this.input = record.input ?? '';
     this.output = record.output ?? '';
     this.constraints = record.constraints ?? '';
+    this.locators = record.locators ?? [];
     this.example = record.example ?? '';
   }
 }
 
-/** Recolecta los `*.md` ordenados de un subdirectorio fuente. */
-function collectMarkdown(dir) {
-  const full = join(PROMPTS_DIR, dir);
+/** Devuelve los subdirectorios (ordenados) de una ruta relativa a PROMPTS_DIR. */
+function listDirs(rel) {
+  const base = join(PROMPTS_DIR, rel);
   let entries;
   try {
-    entries = readdirSync(full);
+    entries = readdirSync(base, { withFileTypes: true });
   } catch {
     return [];
   }
   return entries
-    .filter((name) => name.endsWith('.md'))
-    .map((name) => join(full, name))
+    .filter((e) => e.isDirectory())
+    .map((e) => e.name)
     .sort();
+}
+
+/** Si `groupRel/<action>/SKILL.md` existe, devuelve [{ filePath, site, action }]. */
+function probe(groupRel, action, site) {
+  const filePath = join(PROMPTS_DIR, groupRel, action, 'SKILL.md');
+  try {
+    readFileSync(filePath, 'utf8');
+  } catch {
+    return [];
+  }
+  return [{ filePath, site, action }];
+}
+
+/**
+ * Enumeran los SKILL.md de la biblioteca. Dos profundidades:
+ *   - generic/<accion>/SKILL.md              -> site 'generic'
+ *   - sites/<dominio>/<accion>/SKILL.md      -> site <dominio>
+ * Devuelve [{ filePath, site, action }].
+ */
+function collectSkills() {
+  const skills = [];
+  for (const action of listDirs('generic')) {
+    skills.push(...probe('generic', action, 'generic'));
+  }
+  for (const domain of listDirs('sites')) {
+    for (const action of listDirs(join('sites', domain))) {
+      skills.push(...probe(join('sites', domain), action, domain));
+    }
+  }
+  return skills.sort((a, b) => a.filePath.localeCompare(b.filePath));
 }
 
 /** Extrae las secciones del cuerpo (`## Role`, `## Context`, ...). */
@@ -79,40 +137,64 @@ function parseSections(body) {
   return sections;
 }
 
-/** Parsea un archivo Markdown a un PromptRecord. */
-function toPrompt(filePath) {
+/**
+ * Parsea la sección `## Locators` (`- \`label\`: desc`) a
+ * [{ name, description }]. Devuelve [] si no hay locators.
+ */
+function parseLocators(text) {
+  if (!text) return [];
+  const locators = [];
+  for (const line of text.split('\n')) {
+    const match = line.match(/^-\s*`([^`]+)`\s*:\s*(.+)$/);
+    if (match) {
+      locators.push({ name: match[1].trim(), description: match[2].trim() });
+    }
+  }
+  return locators;
+}
+
+/** Parsea un SKILL.md a un PromptRecord. */
+function toPrompt({ filePath, site, action }) {
   const source = readFileSync(filePath, 'utf8');
   const { data, content } = matter(source);
   const sections = parseSections(content);
+  const id = `${slugDomain(site)}-${action}`;
   return new PromptRecord({
-    id: data.id,
-    site: data.site,
-    type: data.type,
+    id,
+    site,
+    // El `type` canónico: mapa de normalización o el nombre de la carpeta.
+    type: TYPE_BY_FOLDER[action] ?? action,
     tags: data.tags,
     lang: data.lang,
     model: data.model,
     version: data.version,
+    name: data.name,
+    description: data.description,
     role: sections.role,
     context: sections.context,
     input: sections.input,
     output: sections.output,
     constraints: sections.constraints,
+    locators: parseLocators(sections.locators),
     example: sections.example,
   });
 }
 
-/** Validate + agrupación. Falla el build con errores claros. */
+/** Validación + agrupación. Falla el build con errores claros. */
 function buildPrompts() {
-  const files = [...collectMarkdown('generic'), ...collectMarkdown('sites')];
-  if (files.length === 0) {
-    throw new Error('[to-json] No se encontraron prompts en prompts/generic|sites');
+  const skills = collectSkills();
+  if (skills.length === 0) {
+    throw new Error('[to-json] No se encontraron SKILL.md en prompts/generic|sites');
   }
 
-  const prompts = files.map(toPrompt);
+  const prompts = skills.map(toPrompt);
   const byId = new Map();
   for (const p of prompts) {
-    if (!p.id) {
-      throw new Error('[to-json] Falta el campo `id` requerido en uno de los archivos.');
+    if (!p.name) {
+      throw new Error(`[to-json] Falta el campo \`name\` (frontmatter) en ${p.id}.`);
+    }
+    if (!p.description) {
+      throw new Error(`[to-json] Falta el campo \`description\` (frontmatter) en ${p.id}.`);
     }
     if (byId.has(p.id)) {
       throw new Error(`[to-json] id duplicado: ${p.id}`);

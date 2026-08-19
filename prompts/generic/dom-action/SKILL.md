@@ -1,11 +1,6 @@
 ---
-id: generic-dom-action
-site: generic
-type: dom-action
-tags: [agent, interaction]
-lang: any
-model: any
-version: 1
+name: generic-dom-action
+description: Decide and emit a single JSON DOM action (click, fill, focus, speak, ask, done) for a blind user's goal.
 ---
 
 ## Role

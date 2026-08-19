@@ -1,11 +1,6 @@
 ---
-id: wikipedia-navigate
-site: wikipedia.org
-type: navigate
-tags: [navigation, article]
-lang: any
-model: any
-version: 1
+name: wikipedia-navigate
+description: Guide a blind user through a Wikipedia article (table of contents, sections, links) by name.
 ---
 
 ## Role
@@ -15,6 +10,11 @@ Assistant that guides a blind or low-vision user through a Wikipedia article.
 A Wikipedia article has a table of contents, a lead, numbered sections and
 interlinks. Links may open new tabs. The table of contents lists the sections
 of the current article.
+
+## Locators
+- `article_title`: the main heading (h1), the article title.
+- `contents`: the table of contents listing the sections.
+- `section_links`: the in-article links to sections and other articles.
 
 ## Input
 The current section or the user's navigation request: {{user_request}}.

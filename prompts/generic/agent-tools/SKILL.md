@@ -1,11 +1,6 @@
 ---
-id: generic-agent-tools
-site: generic
-type: agent-tools
-tags: [agent, interaction, tools]
-lang: any
-model: any
-version: 1
+name: generic-agent-tools
+description: Drive a browser with tools (snapshot, locate, read, click, focus, fill, web_search, navigate, new_tab) for a blind user.
 ---
 
 ## Role

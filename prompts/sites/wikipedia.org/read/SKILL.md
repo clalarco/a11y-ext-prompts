@@ -1,11 +1,6 @@
 ---
-id: wikipedia-read-article
-site: wikipedia.org
-type: read
-tags: [article, references]
-lang: any
-model: any
-version: 2
+name: wikipedia-read
+description: Read and summarize a Wikipedia article (lead plus main sections) for a blind user.
 ---
 
 ## Role
@@ -16,6 +11,12 @@ low-vision user.
 Wikipedia articles follow a consistent structure: lead paragraph, infobox,
 sections, references. The lead summarizes the article. Interacting with links
 may open new tabs.
+
+## Locators
+- `article_title`: the main heading (h1), the article title.
+- `lead`: the lead paragraph that summarizes the article.
+- `contents`: the table of contents listing the sections.
+- `sections`: the numbered article sections.
 
 ## Input
 The page content: {{page_text}}

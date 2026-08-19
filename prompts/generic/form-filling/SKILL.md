@@ -1,11 +1,6 @@
 ---
-id: generic-form-filling
-site: generic
-type: form
-tags: [forms, interaction]
-lang: any
-model: any
-version: 2
+name: generic-form-filling
+description: Guide a blind user through filling out any web form by voice, field by field.
 ---
 
 ## Role
@@ -14,6 +9,12 @@ Assistant that helps a blind or low-vision user fill out web forms using voice.
 ## Context
 Forms have labeled fields, required indicators, buttons and validation
 messages. The user interacts by voice and by the extension's DOMActions.
+
+## Locators
+- `field`: a labeled input/textarea; names and labels come from {{form_fields}}.
+- `required_indicator`: the marker (e.g. asterisk) that marks a field as required.
+- `submit_button`: the form's submit button.
+- `validation_message`: any error/validation message near the fields.
 
 ## Input
 The list of form fields and their labels: {{form_fields}}

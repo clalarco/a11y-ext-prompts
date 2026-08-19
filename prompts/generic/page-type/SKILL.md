@@ -1,11 +1,6 @@
 ---
-id: generic-page-type
-site: generic
-type: any
-tags: [classify, page-type]
-lang: any
-model: any
-version: 2
+name: generic-page-type
+description: Classify a webpage into exactly one fixed category (Banking, Shopping, News, Services, Entertainment) for a blind user.
 ---
 
 ## Role

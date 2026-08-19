@@ -1,11 +1,6 @@
 ---
-id: generic-read-page
-site: generic
-type: read
-tags: [reading, tts]
-lang: any
-model: any
-version: 2
+name: generic-read-page
+description: Read the main content of any webpage aloud for a blind or low-vision user, ordered by importance.
 ---
 
 ## Role

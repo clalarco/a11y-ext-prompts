@@ -1,11 +1,6 @@
 ---
-id: github-read-repo
-site: github.com
-type: read
-tags: [code, repository]
-lang: any
-model: any
-version: 2
+name: github-read
+description: Read and summarize a GitHub repository page (owner, description, language, README highlights) for a blind user.
 ---
 
 ## Role
@@ -16,6 +11,15 @@ repository page.
 A GitHub repo page shows: repo name/owner, tabs (Code, Issues, Pull requests,
 Actions), file tree, README rendering, star/fork counts. The README is the main
 content.
+
+## Locators
+- `repo_title`: the owner/repo name at the top of the page (e.g. `cludio/blind-ext`).
+- `repo_tabs`: the tab bar (Code, Issues, Pull requests, Actions).
+- `file_tree`: the file/folder list shown on the Code tab.
+- `readme`: the rendered README content.
+- `star_count`: the star count near the title.
+- `fork_count`: the fork count near the title.
+- `primary_language`: the main language badge.
 
 ## Input
 The page content: {{page_text}}

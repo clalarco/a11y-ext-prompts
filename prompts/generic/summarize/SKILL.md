@@ -1,11 +1,6 @@
 ---
-id: generic-summarize
-site: generic
-type: summarize
-tags: [summary]
-lang: any
-model: any
-version: 2
+name: generic-summarize
+description: Summarize the current page in 3-5 sentences for a blind or low-vision user.
 ---
 
 ## Role

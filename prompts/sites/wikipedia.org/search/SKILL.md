@@ -1,11 +1,6 @@
 ---
-id: wikipedia-search
-site: wikipedia.org
-type: search
-tags: [search, article]
-lang: any
-model: any
-version: 1
+name: wikipedia-search
+description: Help a blind user search Wikipedia by voice and confirm the best matching article.
 ---
 
 ## Role
@@ -15,6 +10,11 @@ Assistant that helps a blind or low-vision user search Wikipedia by voice.
 Wikipedia has a search box in the top-right that suggests matching article
 titles as you type. Searches usually take the user directly to an article or
 to a disambiguation/results page.
+
+## Locators
+- `search_box`: the search input at the top-right ("Search Wikipedia").
+- `suggestions`: the autocomplete list of matching article titles.
+- `result_links`: the links on a disambiguation/results page.
 
 ## Input
 The user's search request: {{user_request}}. Optional current page content:

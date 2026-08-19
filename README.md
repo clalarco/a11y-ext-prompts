@@ -33,8 +33,7 @@ URL estable:
 
 - Zip: `https://github.com/clalarco/a11y-ext-prompts/releases/latest/download/prompts.zip`
 
-El **`prompts.zip`** agrupa todos los JSON del bundle con la **misma
-estructura de directorios que los Markdown** de origen:
+El **`prompts.zip`** agrupa los JSON del bundle por sitio:
 
 ```
 prompts/
@@ -64,30 +63,41 @@ a11y-ext-prompts/
 ├── docs/
 │   └── FORMAT.es.md       # Especificación del frontmatter y estructura
 └── prompts/
-    ├── sites/             # Un archivo por sitio web (o dominio)
-    │   ├── wikipedia.org.md
-    │   ├── github.com.md
-    │   └── ...
-    └── generic/           # Prompts genéricos reutilizables
-        ├── assistant.md
-        ├── read-page.md
-        ├── summarize.md
-        └── form-filling.md
+    ├── sites/             # Un dominio por carpeta, una acción por SKILL.md
+    │   ├── github.com/
+    │   │   ├── read/SKILL.md
+    │   │   ├── search/SKILL.md
+    │   │   ├── navigate/SKILL.md
+    │   │   └── form/SKILL.md
+    │   └── wikipedia.org/
+    │       ├── read/SKILL.md
+    │       ├── summarize/SKILL.md
+    │       ├── search/SKILL.md
+    │       ├── navigate/SKILL.md
+    │       └── act/SKILL.md
+    └── generic/           # Prompts genéricos reutilizables (un SKILL.md por acción)
+        ├── assistant/SKILL.md
+        ├── read-page/SKILL.md
+        ├── summarize/SKILL.md
+        └── form-filling/SKILL.md
 ```
 
 > `dist/` es salida del script y no se commitea; viaja como asset del release.
 
 ## Formatos de archivo
 
-Cada prompt es un archivo Markdown con **frontmatter YAML** (metadatos) y un
-cuerpo estructurado. Ver `docs/FORMAT.md` para la especificación completa.
+Cada prompt es un **skill estándar de Claude Code**: un archivo `SKILL.md` con
+**frontmatter YAML** (`name` + `description`) y un cuerpo de secciones `##`.
+Ver `docs/FORMAT.es.md` para la especificación completa.
 
 ## Añadir un prompt
 
-1. Crea el archivo en `prompts/sites/<dominio>.md` (o `prompts/generic/<nombre>.md`).
-2. Rellena el frontmatter y el cuerpo según `docs/FORMAT.es.md`.
+1. Crea el archivo en
+   `prompts/sites/<dominio>/<accion>/SKILL.md` (o `prompts/generic/<accion>/SKILL.md`).
+2. Rellena el frontmatter (`name`, `description`) y el cuerpo según
+   `docs/FORMAT.es.md`. El `site`, `type`, `id` y `version` se derivan de la ruta.
 3. Valida localmente que el bundle compile: `npm install && npm run bundle`
-   (falla si el frontmatter es inválido o hay un `id` duplicado).
+   (falla si falta `name`/`description` o hay un `id` duplicado).
 4. Abre un PR. Al mergear a `main`, la GH Action generará el release.
 
 Ver `CONTRIBUTING.md`.

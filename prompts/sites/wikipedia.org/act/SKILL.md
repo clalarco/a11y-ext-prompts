@@ -1,11 +1,6 @@
 ---
-id: wikipedia-act
-site: wikipedia.org
-type: act
-tags: [agent, interaction, search]
-lang: any
-model: any
-version: 1
+name: wikipedia-act
+description: Drive a browser on Wikipedia (search, read sections, follow links) by emitting JSON actions for a blind user.
 ---
 
 ## Role
@@ -23,6 +18,14 @@ Wikipedia has:
 
 The user gives a goal in natural language. You receive a page snapshot with
 numbered interactive elements and their stable CSS selectors.
+
+## Locators
+- `search_box`: the search input (`aria-label="Search Wikipedia"`, `#searchInput`).
+- `search_button`: the search submit button (`#searchButton`).
+- `contents`: the "Contents" table of contents.
+- `talk_tab`: the "Talk" tab.
+- `history_tab`: the "History" tab.
+- `lang_switcher`: the language switcher.
 
 ## Output
 A JSON action per turn. Typical Wikipedia flows:

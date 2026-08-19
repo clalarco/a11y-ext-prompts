@@ -1,11 +1,6 @@
 ---
-id: github-form
-site: github.com
-type: form
-tags: [form, issue, pull-request]
-lang: any
-model: any
-version: 1
+name: github-form
+description: Guide a blind user through creating an issue or pull request on GitHub, step by step.
 ---
 
 ## Role
@@ -16,6 +11,14 @@ requests on GitHub.
 Creating an issue or PR uses a web form with a title, a body (Markdown) and
 optional labels/assignees. GitHub may prefill templates with sections such as
 "Description", "Steps to reproduce" or "Expected vs actual behavior".
+
+## Locators
+- `title_field`: the issue/PR title input.
+- `body_field`: the description/body textarea (Markdown).
+- `label_field`: the labels picker.
+- `assignee_field`: the assignees picker.
+- `template_sections`: prefilled template sections (e.g. "Description", "Steps to reproduce").
+- `submit_button`: the submit button.
 
 ## Input
 The form fields and their labels, and the user's request: {{user_request}}.

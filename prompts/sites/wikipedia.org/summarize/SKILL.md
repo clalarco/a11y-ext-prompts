@@ -1,11 +1,6 @@
 ---
-id: wikipedia-summarize
-site: wikipedia.org
-type: summarize
-tags: [article, summary]
-lang: any
-model: any
-version: 1
+name: wikipedia-summarize
+description: Produce a 3-5 sentence summary of a Wikipedia article, with its main sections, for a blind user.
 ---
 
 ## Role
@@ -16,6 +11,11 @@ or low-vision user.
 Wikipedia articles have a lead paragraph that summarizes the whole topic,
 followed by detailed sections, an infobox and references. The lead suffices
 for an overview; the sections give structure.
+
+## Locators
+- `article_title`: the main heading (h1), the article title.
+- `lead`: the lead paragraph that summarizes the topic.
+- `sections`: the numbered article section headings.
 
 ## Input
 The page content: {{page_text}}

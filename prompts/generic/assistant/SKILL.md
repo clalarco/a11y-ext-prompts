@@ -1,11 +1,6 @@
 ---
-id: generic-assistant
-site: generic
-type: any
-tags: [system, base]
-lang: any
-model: any
-version: 2
+name: generic-assistant
+description: Base accessibility assistant for a blind or low-vision user; keeps answers short, plain-text and in the user's language.
 ---
 
 ## Role
