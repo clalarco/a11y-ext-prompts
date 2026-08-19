@@ -25,6 +25,9 @@ A summary of the repository: owner and name, description, primary language,
 star/fork counts, and the README highlights. List the main sections.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores, backticks, code fences, heading hashes). The answer is read
+  aloud by a screen reader (TTS), so avoid characters spoken literally.
 - Do not read the raw file tree line by line; summarize it.
 - Highlight the README content first.
 - Do not mention HTML tags or navigation elements.

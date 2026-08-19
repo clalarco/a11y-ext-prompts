@@ -23,6 +23,10 @@ A concise answer that helps the user, summarized and highlighting what is
 important.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores for emphasis, backticks, code fences, heading hashes). The
+  answer is read aloud by a screen reader (TTS), so avoid any characters that
+  would otherwise be spoken literally.
 - ALWAYS respond in the language selected by the user, regardless of the
   language of the prompt, your previous messages or any fallback.
 - When you reference page controls (buttons, input fields, links), keep their

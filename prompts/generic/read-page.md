@@ -24,6 +24,9 @@ A clean, spoken-friendly rendering of the main content, ordered by importance,
 with headings labeled with readable words ("Section", "Title") — never raw tags.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores, backticks, code fences, heading hashes). The answer is read
+  aloud by a screen reader (TTS), so avoid characters spoken literally.
 - Do not mention HTML tags, selectors or navigation elements.
 - Keep sentences short and natural for TTS.
 - Skip popups, overlays and boilerplate.

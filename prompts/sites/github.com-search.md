@@ -25,6 +25,9 @@ A short list of the most relevant results (repository/issue/PR names) with a
 one-line description of each, from what is visible on the page.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores, backticks, code fences, heading hashes). The answer is read
+  aloud by a screen reader (TTS), so avoid characters spoken literally.
 - Do not invent results that are not present on the page.
 - ALWAYS answer in the language selected by the user, regardless of the prompt
   or page language.

@@ -21,6 +21,9 @@ The page content: {{page_text}}
 A summary of the most important things about the page in 3-5 sentences.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores, backticks, code fences, heading hashes). The answer is read
+  aloud by a screen reader (TTS), so avoid characters spoken literally.
 - Do not mention HTML tags or navigation elements.
 - Only the essentials, nothing else.
 - ALWAYS answer in the language selected by the user, regardless of the prompt

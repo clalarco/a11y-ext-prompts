@@ -25,6 +25,9 @@ A concise summary of the lead, followed by the list of main sections with
 their titles.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores, backticks, code fences, heading hashes). The answer is read
+  aloud by a screen reader (TTS), so avoid characters spoken literally.
 - Do not mention HTML tags or navigation elements.
 - ALWAYS answer in the language selected by the user, regardless of the prompt
   or page language.

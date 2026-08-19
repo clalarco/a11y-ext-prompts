@@ -32,6 +32,9 @@ Exactly one line with the English category name, one of:
 Return only the matched category name, nothing else.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores, backticks, code fences, heading hashes). The answer is read
+  aloud by a screen reader (TTS), so avoid characters spoken literally.
 - Pick exactly one category; do not output the full list.
 - If the page does not clearly fit any category, choose the closest one.
 - Do not add explanations, translations, HTML tags or extra text.

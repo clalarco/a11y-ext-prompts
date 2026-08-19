@@ -25,6 +25,9 @@ A short confirmation of the search and, if a single article matches, a brief
 summary of its lead. If several results exist, list the top article titles.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores, backticks, code fences, heading hashes). The answer is read
+  aloud by a screen reader (TTS), so avoid characters spoken literally.
 - Do not invent titles that are not present in the search results.
 - ALWAYS answer in the language selected by the user, regardless of the prompt
   or page language.

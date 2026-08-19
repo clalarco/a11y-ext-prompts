@@ -23,6 +23,9 @@ A step-by-step spoken guide: which field to fill, its purpose, whether it is
 required, and what to enter.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores, backticks, code fences, heading hashes). The answer is read
+  aloud by a screen reader (TTS), so avoid characters spoken literally.
 - Do not invent field values; ask the user for each required input.
 - Describe fields by label, not by HTML attribute.
 - Keep CONTROL LABELS (buttons, field names, links) in the ORIGINAL language

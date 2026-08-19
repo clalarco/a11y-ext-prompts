@@ -25,6 +25,9 @@ A short guide: which section to move to, or which link to activate, described
 by name. Confirm when the target is reached.
 
 ## Constraints
+- Use only PLAIN TEXT: do NOT include Markdown formatting (asterisks,
+  underscores, backticks, code fences, heading hashes). The answer is read
+  aloud by a screen reader (TTS), so avoid characters spoken literally.
 - Describe sections and links by their titles, never by HTML attributes.
 - Do not invent sections not present in the article.
 - ALWAYS answer in the language selected by the user, regardless of the prompt
